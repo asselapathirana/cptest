@@ -71,7 +71,9 @@ def process_image(fn, content):
         bd = '5px solid red'
 
     text = "{}: {:.2f}%".format(label, preds[0][i] * 100)    
-    return html.Div(children=[html.Div(text),html.Img(src=content, width='227')],style=dict(border=bd))
+    return html.Div(children=[html.Div(text),html.Img(src=content, width='227')],
+                    style={"border" : bd, "border-radius": "5px", "min-width": "300px", "margin":"5px"},
+                    className="four columns")
 
 
 @app.callback(
