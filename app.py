@@ -19,18 +19,18 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 server = Flask(__name__)
 app = dash.Dash(server=server, external_stylesheets=external_stylesheets)
 
-UPLOAD_DIRECTORY = "/project/app_uploaded_files"
+#UPLOAD_DIRECTORY = "/project/app_uploaded_files"
 
 # load the CNN 
 
 graph, cnn_model, cnn_lb = predict.load_model_and_labels('concrete.model','concrete_lb.pickle')
-if not os.path.exists(UPLOAD_DIRECTORY):
-    os.makedirs(UPLOAD_DIRECTORY)
+#if not os.path.exists(UPLOAD_DIRECTORY):
+#    os.makedirs(UPLOAD_DIRECTORY)
 
-@server.route("/download/<path:path>")
-def download(path):
-    """Serve a file from the upload directory."""
-    return send_from_directory(UPLOAD_DIRECTORY, path, as_attachment=True)
+#@server.route("/download/<path:path>")
+#def download(path):
+#    """Serve a file from the upload directory."""
+#    return send_from_directory(UPLOAD_DIRECTORY, path, as_attachment=True)
 
 
 app.layout = html.Div([
@@ -61,14 +61,14 @@ app.layout = html.Div([
 
 
 
-def uploaded_files():
-    """List the files in the upload directory."""
-    files = []
-    for filename in os.listdir(UPLOAD_DIRECTORY):
-        path = os.path.join(UPLOAD_DIRECTORY, filename)
-        if os.path.isfile(path):
-            files.append(filename)
-    return files
+#def uploaded_files():
+    #"""List the files in the upload directory."""
+    #files = []
+    #for filename in os.listdir(UPLOAD_DIRECTORY):
+        #path = os.path.join(UPLOAD_DIRECTORY, filename)
+        #if os.path.isfile(path):
+            #files.append(filename)
+    #return files
 
 
 def data_uri_to_cv2_img(uri):
