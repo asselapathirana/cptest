@@ -1,6 +1,5 @@
 import base64
 import os
-from urllib.parse import quote as urlquote
 
 from flask import Flask, send_from_directory
 import dash
@@ -8,14 +7,13 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 import tempfile
-import predict
+import FAKEpredict as predict
 import numpy as np
 import cv2
 
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 server = Flask(__name__)
-app = dash.Dash(server=server, external_stylesheets=external_stylesheets)
+app = dash.Dash(server=server)
 
 # load the CNN 
 graph, cnn_model, cnn_lb = predict.load_model_and_labels('concrete.model','concrete_lb.pickle')
@@ -28,16 +26,7 @@ app.layout = html.Div([
             'Drag and Drop or ',
             html.A('Select Files')
         ]),
-        style={
-            'width': '100%',
-            'height': '60px',
-            'lineHeight': '60px',
-            'borderWidth': '1px',
-            'borderStyle': 'dashed',
-            'borderRadius': '5px',
-            'textAlign': 'center',
-            'margin': '10px'
-        },
+        className="uploadArea",
         # Allow multiple files to be uploaded
         multiple=True,
         accept="image/*",
@@ -70,11 +59,14 @@ def process_image(fn, content):
     else:
         bd = '5px solid red'
 
-    text = "{}: {:.2f}%".format(label, preds[0][i] * 100)    
-    return html.Div(children=[html.Div(text),html.Img(src=content, width='227')],
-                    style={"border" : bd, "border-radius": "5px", "min-width": "300px", "margin":"5px"},
+    text = "{}: {:.2f}%".format(label, preds[0][i] * 100)   
+    img_=html.Img(src=content, className="scaledimage",)
+    img = html.Div(img_, className="imagediv")
+    div = html.Div(text, className="textdiv")
+    return html.Div(children=[div, img,],
+                    style={"border" : bd, "border-radius": "5px", "width": "30vw",  "height": "30vw", "margin":"5px", "box-sizing": "border-box"},
                     className="four columns")
-
+                             
 
 @app.callback(
     Output("image_ul", "children"),
