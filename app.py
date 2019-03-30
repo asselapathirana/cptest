@@ -18,7 +18,7 @@ server = Flask(__name__)
 app = dash.Dash(server=server)
 
 # load the CNN 
-graph, cnn_model, cnn_lb = predict.load_model_and_labels('concrete_best.model','concrete_lb.pickle')
+graph, cnn_model, cnn_lb = predict.load_model_and_labels('./data/concrete_best.model','./data/concrete_lb.pickle')
 
 
 app.layout = html.Div([
