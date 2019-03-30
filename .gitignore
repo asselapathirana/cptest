@@ -6,4 +6,4 @@ venv/
 *.png
 *.PNG
 *py_
-*.model
+
