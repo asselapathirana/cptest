@@ -7,16 +7,18 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 import tempfile
-import FAKEpredict as predict
+#import FAKEpredict as predict
+import predict
 import numpy as np
 import cv2
 
+SIDE = 227
 
 server = Flask(__name__)
 app = dash.Dash(server=server)
 
 # load the CNN 
-graph, cnn_model, cnn_lb = predict.load_model_and_labels('concrete.model','concrete_lb.pickle')
+graph, cnn_model, cnn_lb = predict.load_model_and_labels('concrete_best.model','concrete_lb.pickle')
 
 
 app.layout = html.Div([
@@ -50,7 +52,7 @@ def process_image(fn, content):
     #decode if needed dc=base64.decodebytes(data)
     t,ext=os.path.splitext(fn)    
     #output = predict.predict(graph, cnn_model, cnn_lb, data, 64, 64)	
-    preds = predict.predict2(graph, cnn_model, data, 64, 64)
+    preds = predict.predict2(graph, cnn_model, data, SIDE, SIDE)
     i = preds.argmax(axis=1)[0]
     label = cnn_lb.classes_[i]
     # draw the class label + probability on the output image
