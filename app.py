@@ -67,8 +67,8 @@ def process_image(fn, content):
     img = html.Div(img_, className="imagediv")
     div = html.Div(text, className="textdiv")
     return html.Div(children=[div, img,],
-                    style={"border" : bd, "border-radius": "5px", "width": "30vw",  "height": "30vw", "margin":"5px", "box-sizing": "border-box"},
-                    className="four columns")
+                    style={"border" : bd, }, #, "border-radius": "5px", "width": "30vw",  "height": "30vw", "margin":"5px", "box-sizing": "border-box"},
+                    className="three columns")
                              
 
 @app.callback(

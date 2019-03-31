@@ -1,10 +1,41 @@
 .uploadArea {
-    width: 90%;
-    height: 60px;
+   # width: 90%;
+   # height: 60px;
     line-Height: 60px;
     border-Width: 1px;
     border-Style: dashed;
     border-Radius: 5px;
     text-Align: center;
     margin: 10px auto;
+    overflow-wrap:normal;
+}
+.row{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: normal;
+}
+.four.columns {
+    text-align: center;
+    margin: 5px;
+    padding: 10px;
+}
+
+.three.columns {
+    text-align: center;
+    margin: 5px;
+    padding: 10px;
+}
+
+.scaledimage {
+    height: auto;
+    width: 100%;
+    object-fit: scale-down;
+}
+
+.columns{
+    margin-left:5px;
+}
+
+.columns:first-child{
+    margin-left:5px;
 }
