@@ -15,7 +15,8 @@ import cv2
 SIDE = 227
 
 server = Flask(__name__)
-app = dash.Dash(server=server)
+app = dash.Dash(__name__,server=server)
+# apprantly it is critical to provide name to Dash constructor too. 
 
 # load the CNN 
 graph, cnn_model, cnn_lb = predict.load_model_and_labels('./data/concrete_best.model','./data/concrete_lb.pickle')
