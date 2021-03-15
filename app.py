@@ -6,24 +6,27 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
+import dash_bootstrap_components as dbc
 import tempfile
 #import FAKEpredict as predict
 import predict
 import numpy as np
 import cv2
 
+
 SIDE = 227
 
 server = Flask(__name__)
-app = dash.Dash(__name__,server=server)
 # apprantly it is critical to provide name to Dash constructor too. 
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.CERULEAN], server=server)
+
+
 
 # load the CNN 
 graph, cnn_model, cnn_lb = predict.load_model_and_labels('./data/concrete_best.model','./data/concrete_lb.pickle')
 
 
-app.layout = html.Div([
-    dcc.Upload(
+_INP = dcc.Upload(
         id='upload-data',
         children=html.Div([
             'Drag and Drop or ',
@@ -35,9 +38,35 @@ app.layout = html.Div([
         accept="image/*",
         max_size="2100000", # 2 MB
         
-    ),
-    html.Div(id='image_ul'),
+    )
+
+_OUTP = html.Div(id='image_ul')
+
+
+
+app.layout = dbc.Container([
+    dbc.Row(#dbc.Card(
+        [html.H1("Concrete Crack Detection Using Artificial Intlligence",),
+         dbc.Alert(
+                     "Drag and drop some images (for best results use images of 200x200 pixels or smaller) and see how the AI classifies them. Positive: Likely cracks. Negative: Likely no cracks.",
+                     id="alert-fade",
+                     dismissable=True,
+                     is_open=True,
+                     color='info'
+        )         
+         ],
+         align="center"
+        ),
+    dbc.Row([
+        dbc.Col(dbc.Container(dbc.Card([_INP]))),
+        ]),
+    dbc.Row([
+        dbc.Col(dbc.Container(dbc.Card([_OUTP]))),
+        ]),    
+        
 ])
+
+
 
 
 def data_uri_to_cv2_img(uri):
