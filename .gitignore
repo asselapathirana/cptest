@@ -7,4 +7,3 @@ venv/
 *.PNG
 *py_
 *.model
-env/
