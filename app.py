@@ -1,7 +1,7 @@
 import base64
 import os
 
-from flask import Flask, send_from_directory
+from flask import Flask
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
