@@ -3,8 +3,9 @@
 # python predict.py --image concrete/Negative/00014.jpg --model output/concrete.model --label-bin output/concrete_lb.pickle --width 64 --height 64
 
 # import the necessary packages
+import tensorflow as tf
 from keras.models import load_model
-from tensorflow import get_default_graph
+#from tensorflow import get_default_graph
 from pyimagesearch.smallvggnet import dumb
 import pickle
 import cv2
@@ -18,7 +19,7 @@ def load_model_and_labels(model_name, label_bin):
 	with open(label_bin, "rb") as f_:
 		lb = pickle.loads(f_.read())
 	model = load_model(model_name)
-	graph = get_default_graph()
+	graph = tf.Graph()
 	
 
 	return graph, model, lb
@@ -48,8 +49,8 @@ def predict2(graph, model, image, x_, y_):
 	image = image.reshape((1, image.shape[0], image.shape[1],
 		image.shape[2]))
 	# make a prediction on the image
-	with graph.as_default():
-		preds = model.predict(image)
+	#with graph.as_default():
+	preds = model.predict(image)
 	return preds
 
 

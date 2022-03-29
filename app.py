@@ -1,10 +1,10 @@
 import base64
 import os
 
-from flask import Flask, send_from_directory
+from flask import Flask
 import dash
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
 import tempfile
@@ -12,19 +12,22 @@ import tempfile
 import predict
 import numpy as np
 import cv2
+import os
 
-
+BASE_PATH = os.getenv("DASH_BASE_PATHNAME","/")
 SIDE = 227
 
 server = Flask(__name__)
 # apprantly it is critical to provide name to Dash constructor too. 
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.CERULEAN], server=server)
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.CERULEAN], 
+                server=server, url_base_pathname=BASE_PATH)
 
 
 
 # load the CNN 
+print ("Loadeding")
 graph, cnn_model, cnn_lb = predict.load_model_and_labels('./data/concrete_best.model','./data/concrete_lb.pickle')
-
+print ("Loaded")
 
 _INP = dcc.Upload(
         id='upload-data',
@@ -71,7 +74,7 @@ app.layout = dbc.Container([
 
 def data_uri_to_cv2_img(uri):
     encoded_data = uri.split(',')[1]
-    nparr = np.fromstring(base64.b64decode(encoded_data), np.uint8)
+    nparr = np.frombuffer(base64.b64decode(encoded_data), np.uint8)
     img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
     return img
 
@@ -126,3 +129,5 @@ if __name__ == "__main__":
     if 'WINGDB_ACTIVE' in os.environ:
         server.debug = False
         server.run(port=8888)
+    else:
+        server.run()

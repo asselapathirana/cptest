@@ -8,3 +8,7 @@ venv/
 *py_
 *.model
 env/
+env.old/
+*.old
+*.swp
+*.bak
