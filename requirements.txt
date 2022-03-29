@@ -2,5 +2,5 @@ tensorflow==2.8.0
 Werkzeug==2.0.3
 dash==2.3.0
 dash-bootstrap-components==1.0.3
-opencv-python==4.5.5.64
+opencv-python==4.5.*.*
 gunicorn 
