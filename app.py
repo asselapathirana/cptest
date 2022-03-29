@@ -1,29 +1,35 @@
-import base64
+mport base64
 import os
 
 from flask import Flask
 import dash
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 from dash.dependencies import Input, Output
+import dash_bootstrap_components as dbc
 import tempfile
 #import FAKEpredict as predict
 import predict
 import numpy as np
 import cv2
+import os
 
+BASE_PATH = os.getenv("DASH_BASE_PATHNAME","/")
 SIDE = 227
 
 server = Flask(__name__)
-app = dash.Dash(__name__,server=server)
 # apprantly it is critical to provide name to Dash constructor too. 
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.CERULEAN], 
+                server=server, url_base_pathname=BASE_PATH)
+
+
 
 # load the CNN 
+print ("Loadeding")
 graph, cnn_model, cnn_lb = predict.load_model_and_labels('./data/concrete_best.model','./data/concrete_lb.pickle')
+print ("Loaded")
 
-
-app.layout = html.Div([
-    dcc.Upload(
+_INP = dcc.Upload(
         id='upload-data',
         children=html.Div([
             'Drag and Drop or ',
@@ -35,14 +41,40 @@ app.layout = html.Div([
         accept="image/*",
         max_size="2100000", # 2 MB
         
-    ),
-    html.Div(id='image_ul'),
+    )
+
+_OUTP = html.Div(id='image_ul')
+
+
+
+app.layout = dbc.Container([
+    dbc.Row(#dbc.Card(
+        [html.H1("Concrete Crack Detection Using Artificial Intlligence",),
+         dbc.Alert(
+                     "Drag and drop some images (for best results use images of 200x200 pixels or smaller) and see how the AI classifies them. Positive: Likely cracks. Negative: Likely no cracks.",
+                     id="alert-fade",
+                     dismissable=True,
+                     is_open=True,
+                     color='info'
+        )         
+         ],
+         align="center"
+        ),
+    dbc.Row([
+        dbc.Col(dbc.Container(dbc.Card([_INP]))),
+        ]),
+    dbc.Row([
+        dbc.Col(dbc.Container(dbc.Card([_OUTP]))),
+        ]),    
+        
 ])
+
+
 
 
 def data_uri_to_cv2_img(uri):
     encoded_data = uri.split(',')[1]
-    nparr = np.fromstring(base64.b64decode(encoded_data), np.uint8)
+    nparr = np.frombuffer(base64.b64decode(encoded_data), np.uint8)
     img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
     return img
 
@@ -97,3 +129,6 @@ if __name__ == "__main__":
     if 'WINGDB_ACTIVE' in os.environ:
         server.debug = False
         server.run(port=8888)
+    else:
+        server.run()
+>>>>>>> 9f3f8fa08344845dc549caa58a669d62e14eb776
