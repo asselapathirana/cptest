@@ -1,4 +1,4 @@
-mport base64
+import base64
 import os
 
 from flask import Flask
@@ -131,4 +131,3 @@ if __name__ == "__main__":
         server.run(port=8888)
     else:
         server.run()
->>>>>>> 9f3f8fa08344845dc549caa58a669d62e14eb776
