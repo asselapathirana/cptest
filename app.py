@@ -49,9 +49,9 @@ _OUTP = html.Div(id='image_ul')
 
 app.layout = dbc.Container([
     dbc.Row(#dbc.Card(
-        [html.H1("Concrete Crack Detection Using Artificial Intlligence",),
+        [html.H1("Concrete Crack Detection Using Artificial Intelligence",),
          dbc.Alert(
-                     "Drag and drop some images (for best results use images of 200x200 pixels or smaller) and see how the AI classifies them. Positive: Likely cracks. Negative: Likely no cracks.",
+                     "Drag and drop some images (for best results use images of 200x200 pixels or smaller) and see how the AI classifies them. Positive: Likely with cracks. Negative: Likely no cracks.",
                      id="alert-fade",
                      dismissable=True,
                      is_open=True,
