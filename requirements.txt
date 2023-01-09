@@ -4,4 +4,5 @@ dash==2.3.0
 dash-bootstrap-components==1.0.3
 opencv-python==4.5.*
 gunicorn
+protobuf==3.20.* 
 
