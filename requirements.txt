@@ -1,6 +1,7 @@
 tensorflow
+flask
 dash
 dash-bootstrap-components
 gunicorn
 protobuf
-
+opencv-python

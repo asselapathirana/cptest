@@ -5,6 +5,7 @@
 # import the necessary packages
 import tensorflow as tf
 from keras.models import load_model
+from keras.layers import TFSMLayer
 #from tensorflow import get_default_graph
 from pyimagesearch.smallvggnet import dumb
 import pickle
@@ -18,7 +19,7 @@ def load_model_and_labels(model_name, label_bin):
 	print("[INFOx] loading network and label binarizer...")
 	with open(label_bin, "rb") as f_:
 		lb = pickle.loads(f_.read())
-	model = load_model(model_name)
+	model = TFSMLayer(model_name, call_endpoint='serving_default') #load_model(model_name)
 	graph = tf.Graph()
 	
 
@@ -55,7 +56,7 @@ def predict2(graph, model, image, x_, y_):
 
 
 if __name__ == "__main__":
-	graph, model, lb = load_model_and_labels('concrete.model','concrete_lb.pickle')
+	graph, model, lb = load_model_and_labels('./data/concrete.model','./data/concrete_lb.pickle')
 	# load the input image and resize it to the target spatial dimensions
 	image = cv2.imread('800px-Yin_yang.svg.png')
 	output = predict(graph, model, lb, image, 64, 64)	
