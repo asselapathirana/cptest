@@ -1,4 +1,5 @@
-tensorflow
+Keras~=2.15.0
+tensorflow~=2.15.0
 flask
 dash
 dash-bootstrap-components
